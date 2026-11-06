@@ -1,0 +1,42 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  checks:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff numpy
+      - run: ruff check vrti tests scripts
+      - run: python scripts/check_version.py
+      - run: python tests/test_core_roundtrip.py
+
+  blender:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        blender: ["4.2.23", "4.5.15", "5.2.3"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Install the libraries Blender needs
+        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libsm6 libxfixes3 libxi6 libxkbcommon0 libxrender1 libxxf86vm1
+      - name: Download Blender ${{ matrix.blender }}
+        run: |
+          version="${{ matrix.blender }}"
+          curl -fsSL "https://download.blender.org/release/Blender${version%.*}/blender-${version}-linux-x64.tar.xz" | tar -xJ -C "$RUNNER_TEMP"
+          echo "BLENDER=$RUNNER_TEMP/blender-${version}-linux-x64/blender" >> "$GITHUB_ENV"
+      - run: python scripts/run_tests.py

@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+.ruff_cache/
+
+# Blender
+*.blend
+*.blend[0-9]
+
+# Build output
+dist/
+*.zip
+
+# Local results: real specimens and generated data stay out of the repository
+reports/
+demo_specimen/
+*_VRTI/
+*.ptm
+*.rti
+*.lp
+
+# Editors and operating systems
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

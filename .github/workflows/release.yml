@@ -1,0 +1,39 @@
+name: Release
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+permissions:
+  contents: write
+
+env:
+  BLENDER_VERSION: "4.5.15"
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: The tag must match the version in the code
+        run: |
+          python scripts/check_version.py
+          test "$(python scripts/check_version.py)" = "Version ${GITHUB_REF_NAME#v}"
+      - name: Install the libraries Blender needs
+        run: sudo apt-get update && sudo apt-get install -y libegl1 libgl1 libsm6 libxfixes3 libxi6 libxkbcommon0 libxrender1 libxxf86vm1
+      - name: Download Blender
+        run: |
+          curl -fsSL "https://download.blender.org/release/Blender${BLENDER_VERSION%.*}/blender-${BLENDER_VERSION}-linux-x64.tar.xz" | tar -xJ -C "$RUNNER_TEMP"
+          echo "BLENDER=$RUNNER_TEMP/blender-${BLENDER_VERSION}-linux-x64/blender" >> "$GITHUB_ENV"
+      - run: python scripts/run_tests.py
+      - name: Build the extension
+        run: |
+          mkdir dist
+          "$BLENDER" --factory-startup --command extension build --source-dir vrti --output-dir dist
+      - name: Create the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release create "$GITHUB_REF_NAME" dist/*.zip --title "V-RTI Studio ${GITHUB_REF_NAME#v}" --generate-notes

@@ -1,0 +1,36 @@
+name: Bug report
+description: Something does not work, or a file does not open correctly
+labels: [bug]
+body:
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened?
+      description: What you did, what you expected, and what happened instead.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: V-RTI Studio version
+      placeholder: "1.6.0"
+    validations:
+      required: true
+  - type: input
+    id: blender
+    attributes:
+      label: Blender version and operating system
+      placeholder: "4.5.3, Windows 11"
+    validations:
+      required: true
+  - type: textarea
+    id: settings
+    attributes:
+      label: Model and settings
+      description: Source of the model, triangle count, dome, tier, RTI files, image format.
+  - type: textarea
+    id: log
+    attributes:
+      label: Error message or fit report
+      description: The full error text, and `<name>_fit_report.json` for a quality problem. Remove anything you do not want to publish.
+      render: text

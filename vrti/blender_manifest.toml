@@ -1,0 +1,16 @@
+schema_version = "1.0.0"
+
+id = "vrti_studio"
+version = "1.6.0"
+name = "V-RTI Studio"
+tagline = "Virtual RTI (PTM / HSH) capture from photogrammetry models"
+maintainer = "A. Akçay"
+website = "https://github.com/Ayqi/V-RTI-Studio"
+type = "add-on"
+
+tags = ["Render", "Import-Export", "Lighting"]
+blender_version_min = "4.2.0"
+license = ["SPDX:GPL-3.0-or-later"]
+
+[permissions]
+files = "Read OBJ/MTL models; write RTI, PTM, LP, JSON and image files"

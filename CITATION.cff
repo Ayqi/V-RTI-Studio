@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it using these metadata."
+title: "V-RTI Studio: Virtual Reflectance Transformation Imaging for Blender"
+type: software
+authors:
+  - family-names: "Akçay"
+    given-names: "A."
+version: 1.6.0
+date-released: 2026-11-06
+license: GPL-3.0-or-later
+repository-code: "https://github.com/Ayqi/V-RTI-Studio"
+keywords:
+  - reflectance transformation imaging
+  - RTI
+  - polynomial texture maps
+  - hemispherical harmonics
+  - photogrammetry
+  - cultural heritage
+  - epigraphy
+  - Blender
